@@ -6,10 +6,12 @@ class StringReplaceNode:
         return {
             "required": {
                 "replacement_pairs": ("STRING", {"multiline": True, "default": "",
-                    "tooltip": "Enter replacement pairs, one per line, in format 'search:replace'. Example: 'cat:dog' or 'A drawing of:A photo of'"}),
+                    "tooltip": "Enter replacement pairs, one per line. Format: 'search<delimiter>replace'. Default delimiter is ':' (colon)"}),
+                "replacement_delimiter": ("STRING", {"default": "::", 
+                    "tooltip": "Character(s) that separate search and replace strings. Default is two '::' (colons)"}),
                 "match_case": ("BOOLEAN", {"default": False,
                     "label_on": "enabled", "label_off": "disabled"}),
-                "match_whole_string": ("BOOLEAN", {"default": True,
+                "match_whole_string": ("BOOLEAN", {"default": False,
                     "label_on": "enabled", "label_off": "disabled"}),
                 "remove_extra_spaces": ("BOOLEAN", {"default": True,
                     "label_on": "enabled", "label_off": "disabled"})
@@ -21,16 +23,16 @@ class StringReplaceNode:
     FUNCTION = "string_replace"
     CATEGORY = "utils"
 
-    def string_replace(self, input_string, replacement_pairs, match_case, match_whole_string, remove_extra_spaces):
+    def string_replace(self, input_string, replacement_pairs, replacement_delimiter, match_case, match_whole_string, remove_extra_spaces):
         result = input_string
         flags = 0 if match_case else re.IGNORECASE
 
         for line in replacement_pairs.splitlines():
             line = line.strip()
-            if not line or ':' not in line:
+            if not line or replacement_delimiter not in line:
                 continue
 
-            search_str, replace_str = line.split(':', 1)
+            search_str, replace_str = line.split(replacement_delimiter, 1)
             search_str = search_str.strip()
             replace_str = replace_str.strip()
 
@@ -46,9 +48,7 @@ class StringReplaceNode:
             result = re.sub(pattern, replace_str, result, flags=flags)
 
         if remove_extra_spaces:
-            # Replace multiple spaces with single space
             result = re.sub(r'\s+', ' ', result)
-        
-        # Strip leading and trailing spaces
-        result = result.strip()
+            result = result.strip()
+            
         return (result,)

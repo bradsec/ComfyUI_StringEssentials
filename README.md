@@ -2,8 +2,6 @@
 
 Custom nodes for ComfyUI that provide text/string manipulation capabilities. Particularly useful for modifying text from LLM outputs (Ollama, Claude.ai, OpenAI ChatGPT), such as prompts or image-to-text description results.
 
-![stringstrip](stringstrip.png)![stringreplace](stringreplace.png)
-
 ## Features
 - Remove or replace text, words, numbers in input strings
 - Handle multi-word strings (partial sentences/phrases)
@@ -11,7 +9,9 @@ Custom nodes for ComfyUI that provide text/string manipulation capabilities. Par
 - Whole string matching option
 
 ## String Strip Node
-Removes specified strings from input text. Each line should contain the string to be searched. The string can contain multiple words. To match individual words/strings place on seperate lines.
+Removes specified strings from input text. Each line should contain the string to be searched. The string can contain multiple words. To match individual words/strings place on seperate lines.  
+![stringstrip](stringstrip.png)
+
 
 ### Inputs
 - **`input_string`**: The string or text to process
@@ -24,11 +24,13 @@ Removes specified strings from input text. Each line should contain the string t
 ![examplestrip](examplestrip.png)
 
 ## String Replace Node
-Replaces text strings with new strings. Each line should contain a search and replace pair separated by a colon `:` See example image below.
+Replaces text strings with new strings. Each line should contain a search and replace pair separated replace_delimiter. See example image below.  
+![stringreplace](stringreplace.png)
 
 ### Inputs
 - **`input_string`**: The string or text to process
 - **`replacement_pairs`**: List of search:replace pairs (one per line)
+- **`replacement_delimiter`**: Character(s) that separate search and replace strings. Default is a double colon `::`
 - **`match_case`**: Enable/disable case-sensitive matching
 - **`match_whole_string`**: Ensure only exact matches are replaced
 - **`remove_extra_spaces`**: Clean up extra spaces after replacement
