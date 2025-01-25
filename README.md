@@ -1,6 +1,6 @@
 # String Essentials - Custom nodes for ComfyUI
 
-Custom nodes for ComfyUI that provide text/string manipulation capabilities. Particularly useful for modifying text from LLM outputs (Ollama, Claude.ai, OpenAI ChatGPT), such as prompts or image-to-text description results.
+Easy to use string manipulation nodes for ComfyUI (strip/remove multiple text strings or search and replace text strings). Particularly useful for modifying text from LLM outputs (Ollama, Claude.ai, OpenAI ChatGPT), such as prompts or image-to-text description results. Nodes will be located under standard `Add Node` > `utils` menu. 
 
 ## Features
 - Remove or replace text, words, numbers in input strings

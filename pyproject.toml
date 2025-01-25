@@ -1,6 +1,6 @@
 [project]
 name = "comfyui_stringessentials"
-description = "Essential string manipulation nodes for ComfyUI."
+description = "Easy to use string manipulation nodes for ComfyUI (strip/remove text strings or search and replace text strings). Particularly useful for modifying text prompts or results from LLM outputs. Nodes will be located under standard Add Node > utils menu. Node names: String Strip and String Replace"
 version = "1.0.1"
 license = {file = "LICENSE"}
 
@@ -10,5 +10,5 @@ Repository = "https://github.com/bradsec/ComfyUI_StringEssentials"
 
 [tool.comfy]
 PublisherId = "bradsec"
-DisplayName = "comfyui_stringessentials"
+DisplayName = "ComfyUI_StringEssentials"
 Icon = ""
