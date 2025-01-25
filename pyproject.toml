@@ -2,7 +2,7 @@
 name = "comfyui_stringessentials"
 description = "Essential string manipulation nodes for ComfyUI."
 version = "1.0.1"
-license = "MIT"
+license = {file = "LICENSE"}
 
 [project.urls]
 Repository = "https://github.com/bradsec/ComfyUI_StringEssentials"
