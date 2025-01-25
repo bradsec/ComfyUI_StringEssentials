@@ -1,5 +1,5 @@
 [project]
-name = "comfyui_stringessentials"
+name = "ComfyUI_StringEssentials"
 description = "Essential string manipulation nodes for ComfyUI."
 version = "1.0.1"
 license = {file = "LICENSE"}
@@ -9,6 +9,6 @@ Repository = "https://github.com/bradsec/ComfyUI_StringEssentials"
 #  Used by Comfy Registry https://comfyregistry.org
 
 [tool.comfy]
-PublisherId = "BRADSEC"
-DisplayName = "ComfyUI String Essentials"
+PublisherId = "bradsec"
+DisplayName = "ComfyUI_StringEssentials"
 Icon = ""
