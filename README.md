@@ -30,9 +30,9 @@ Removes specified strings from input text. Each line should contain the string t
 ### Inputs
 - **`input_string`**: The string or text to process
 - **`strings_to_remove`**: List of strings to remove (one per line)
-- **`match_case`**: Enable/disable case-sensitive matching (default: disabled)
-- **`match_whole_string`**: Ensure only exact matches are removed (default: enabled)
-- **`remove_extra_spaces`**: Clean up extra spaces after removal (default: enabled)
+- **`match_case`**: Enable/disable case-sensitive matching
+- **`match_whole_string`**: Ensure only exact matches are removed
+- **`remove_extra_spaces`**: Clean up extra spaces after removal
 
 ## String Replace
 Replaces text strings with new strings (replace/swap words etc.). Each line should contain a search and replace pair separated by the replacement_delimiter (default is double colon `::`). Example to replace dog with cat `dog::cat`. Supports mulitple string replacements, just add one replacement per line.
@@ -43,9 +43,9 @@ Replaces text strings with new strings (replace/swap words etc.). Each line shou
 - **`input_string`**: The string or text to process
 - **`replacement_pairs`**: List of search::replace pairs (one per line)
 - **`replacement_delimiter`**: Character(s) that separate search and replace strings (default: `::`)
-- **`match_case`**: Enable/disable case-sensitive matching (default: disabled)
-- **`match_whole_string`**: Ensure only exact matches are replaced (default: disabled)
-- **`remove_extra_spaces`**: Clean up extra spaces after replacement (default: enabled)
+- **`match_case`**: Enable/disable case-sensitive matching
+- **`match_whole_string`**: Ensure only exact matches are replaced
+- **`remove_extra_spaces`**: Clean up extra spaces after replacement
 
 ## String Preview
 Simply displays a string output. Can be used to view the results/changes to the input_string by the `String Strip` or `String Replace`.  
@@ -67,4 +67,5 @@ git clone https://github.com/bradsec/ComfyUI_StringEssentials.git
 4. Select node from the `Add Node` > `utils` menu.
 
 
-### If you found these nodes useful please star the repo.
+### [If you found these nodes useful please ⭐ Star the repo at github.com/bradsec/ComfyUI_StringEssentials.](https://github.com/bradsec/ComfyUI_StringEssentials "BRADSEC ComfyUI_StringEssentials")
+
