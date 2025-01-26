@@ -1,11 +1,11 @@
 import { app } from "../../../scripts/app.js";
+import { ComfyWidgets } from "../../../scripts/widgets.js";
 
 app.registerExtension({
     name: "string.strip",
     async beforeRegisterNodeDef(nodeType) {
         if (nodeType.comfyClass === "StringStrip") {
             nodeType.prototype.onNodeCreated = function() {
-                // Add an input port for `input_text`
                 this.addInput("input_string", "STRING");
             };
         }
@@ -17,8 +17,29 @@ app.registerExtension({
     async beforeRegisterNodeDef(nodeType) {
         if (nodeType.comfyClass === "StringReplace") {
             nodeType.prototype.onNodeCreated = function() {
-                // Add an input port for `input_text`
                 this.addInput("input_string", "STRING");
+            };
+        }
+    }
+});
+
+app.registerExtension({
+    name: "string.preview",
+    async beforeRegisterNodeDef(nodeType, nodeData) {
+        if (nodeType.comfyClass === "StringPreview") {
+            nodeType.prototype.onNodeCreated = function() {
+                this.addInput("input_string", "STRING");
+                this.showValueWidget = ComfyWidgets["STRING"](this, "preview", ["STRING", { multiline: true }], app).widget;
+                this.showValueWidget.inputEl.readOnly = true;
+                this.showValueWidget.inputEl.style.opacity = 0.6;
+            };
+
+            const onExecuted = nodeType.prototype.onExecuted;
+            nodeType.prototype.onExecuted = function(message) {
+                onExecuted?.apply(this, arguments);
+                if (message?.text?.[0] !== undefined) {
+                    this.showValueWidget.value = message.text[0];
+                }
             };
         }
     }

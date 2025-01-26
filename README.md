@@ -1,6 +1,15 @@
 # String Essentials - Custom nodes for ComfyUI
 
-Easy to use string manipulation nodes for ComfyUI (strip/remove multiple text strings or search and replace text strings). Particularly useful for modifying text from LLM outputs (Ollama, Claude.ai, OpenAI ChatGPT), such as prompts or image-to-text description results. Nodes will be located under standard `Add Node` > `utils` menu. 
+Simple string manipulation nodes for ComfyUI (strip/remove text strings, search and replace text strings, preview modified string outputs). Particularly useful for modifying text from LLM outputs (Ollama, Claude.ai, OpenAI ChatGPT), such as prompts or image-to-text description results. No bloat/additional Python dependencies or external modules required. Nodes use a small amount of basic Python and Javascript code.
+
+## Nodes included:
+
+- String Textbox
+- String Strip
+- String Replace
+- String Preview
+
+***Once added nodes can be found under the `Add Node` > `utils` menu.***
 
 ## Features
 - Remove or replace text, words, numbers in input strings
@@ -8,10 +17,15 @@ Easy to use string manipulation nodes for ComfyUI (strip/remove multiple text st
 - Case-sensitive/insensitive matching
 - Whole string matching option
 
-## String Strip Node
-Removes specified strings from input text. Each line should contain the string to be searched. The string can contain multiple words. To match individual words/strings place on separate lines.
+## String Textbox
+A simple multiline textbox for free form text.  
+  
+![stringtextbox](images/stringtextbox.png)  
+  
+## String Strip
+Removes specified strings from input text. Each line should contain the string to be searched. The string can contain multiple words. To strip multiple individual words/strings place on separate lines.
 
-![stringstrip](stringstrip.png)
+![stringstrip](images/stringstrip.png)
 
 ### Inputs
 - **`input_string`**: The string or text to process
@@ -20,13 +34,10 @@ Removes specified strings from input text. Each line should contain the string t
 - **`match_whole_string`**: Ensure only exact matches are removed (default: enabled)
 - **`remove_extra_spaces`**: Clean up extra spaces after removal (default: enabled)
 
-### String Strip Example Usage:
-![examplestrip](examplestrip.png)
+## String Replace
+Replaces text strings with new strings (replace/swap words etc.). Each line should contain a search and replace pair separated by the replacement_delimiter (default is double colon `::`). Example to replace dog with cat `dog::cat`. Supports mulitple string replacements, just add one replacement per line.
 
-## String Replace Node
-Replaces text strings with new strings. Each line should contain a search and replace pair separated by the replacement_delimiter (default is double colon `::`).
-
-![stringreplace](stringreplace.png)
+![stringreplace](images/stringreplace.png)
 
 ### Inputs
 - **`input_string`**: The string or text to process
@@ -36,8 +47,15 @@ Replaces text strings with new strings. Each line should contain a search and re
 - **`match_whole_string`**: Ensure only exact matches are replaced (default: disabled)
 - **`remove_extra_spaces`**: Clean up extra spaces after replacement (default: enabled)
 
-### String Replace Example Usage:
-![examplereplace](examplereplace.png)
+## String Preview
+Simply displays a string output. Can be used to view the results/changes to the input_string by the `String Strip` or `String Replace`.  
+  
+![stringpreview](images/stringpreview.png)
+  
+## Example Usage  
+  
+![exampleusage](images/exampleusage.png)
+
 
 ## Installation
 1. Navigate to the `custom_nodes` directory in your ComfyUI installation path.
@@ -46,4 +64,7 @@ Replaces text strings with new strings. Each line should contain a search and re
 git clone https://github.com/bradsec/ComfyUI_StringEssentials.git
 ```
 3. Restart ComfyUI or refresh your nodes.
-4. Select node from the utils menu. `Add Node > utils >` `String Strip` or `String Replace`
+4. Select node from the `Add Node` > `utils` menu.
+
+
+### If you found these nodes useful please star the repo.
