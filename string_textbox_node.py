@@ -1,6 +1,6 @@
 class StringTextboxNode:
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(cls):
         return {
             "required": {
                 "input_string": ("STRING", {

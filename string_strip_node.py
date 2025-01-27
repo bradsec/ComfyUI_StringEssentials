@@ -2,7 +2,7 @@ import re
 
 class StringStripNode:
     @classmethod
-    def INPUT_TYPES(s):
+    def INPUT_TYPES(cls):
         return {
             "required": {
                 "strings_to_remove": ("STRING", {"multiline": True, "default": "",
@@ -21,27 +21,46 @@ class StringStripNode:
     FUNCTION = "string_strip"
     CATEGORY = "utils"
 
-    def string_strip(self, input_string, strings_to_remove, remove_extra_spaces, match_case, match_whole_string):
+    def cleanup_text(self, text):
+        text = re.sub(r'\s+([,;:.])', r'\1', text)  # Remove spaces before punctuation
+        text = re.sub(r'\s{2,}', ' ', text)  # Normalize multiple spaces
+        return text.strip()
+
+    def string_strip(self, input_string, strings_to_remove, match_case, match_whole_string, remove_extra_spaces):
+        # Create a list of strings to remove, sorted by length
+        removals = []
+        for line in strings_to_remove.splitlines():
+            line = line.strip()
+            if not line:
+                continue
+            
+            # Store length with the string for sorting
+            removals.append((len(line), line))
+        
+        # Sort by length in descending order to handle longer phrases first
+        removals.sort(reverse=True)
+        
         result = input_string
         flags = 0 if match_case else re.IGNORECASE
 
-        for string_to_remove in strings_to_remove.splitlines():
-            string_to_remove = string_to_remove.strip()
-            if not string_to_remove:
-                continue
-
+        # Compile patterns once for better performance
+        patterns = []
+        for _, string_to_remove in removals:
             if match_whole_string:
-                pattern = re.escape(string_to_remove)
-                pattern = r"(?<!\S)" + pattern + r"(?!\S)"
+                # Enhanced pattern to handle punctuation properly
+                # Look for the string followed by optional punctuation
+                pattern = r'(?:\b|(?<=\s)|^)' + re.escape(string_to_remove) + r'(?:[,;:.])?(?=\s|$)'
             else:
-                pattern = re.escape(string_to_remove)
+                # For non-whole string matching, still handle punctuation
+                pattern = re.escape(string_to_remove) + r'(?:[,;:.])?'
+            
+            patterns.append(re.compile(pattern, flags=flags))
 
-            result = re.sub(pattern, "", result, flags=flags)
+        # Apply all removal patterns
+        for pattern in patterns:
+            result = pattern.sub('', result)
 
         if remove_extra_spaces:
-            # Replace multiple spaces with single space
-            result = re.sub(r'\s+', ' ', result)
+            result = self.cleanup_text(result)
         
-        # Strip leading and trailing spaces
-        result = result.strip()
         return (result,)

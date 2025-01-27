@@ -1,6 +1,6 @@
 # String Essentials - Custom nodes for ComfyUI
 
-Simple string manipulation nodes for ComfyUI (strip/remove text strings, search and replace text strings, preview modified string outputs). Particularly useful for modifying text from LLM outputs (Ollama, Claude.ai, OpenAI ChatGPT), such as prompts or image-to-text description results. No bloat/additional Python dependencies or external modules required. Nodes use a small amount of basic Python and Javascript code.
+Simple string manipulation nodes for ComfyUI (strip/remove text strings, search and replace text strings, preview modified string outputs). Useful for modifying text from LLM outputs (Ollama, Claude.ai, OpenAI ChatGPT), such as prompts or image-to-text description results. No additional Python dependencies or external modules required. Nodes use a small amount of basic Python and Javascript code.
 
 ## Nodes included:
 
@@ -35,7 +35,7 @@ Removes specified strings from input text. Each line should contain the string t
 - **`remove_extra_spaces`**: Clean up extra spaces after removal
 
 ## String Replace
-Replaces text strings with new strings (replace/swap words etc.). Each line should contain a search and replace pair separated by the replacement_delimiter (default is double colon `::`). Example to replace dog with cat `dog::cat`. Supports mulitple string replacements, just add one replacement per line.
+Replaces text strings with new strings (replace/swap words etc.). Each line should contain a search and replace pair separated by the replacement_delimiter (default is double colon `::`). Example to replace dog with cat `dog::cat`. Supports mulitple string replacements, just add one replacement per line. You can also remove strings with this node just leave the right side of the delimiter blank.
 
 ![stringreplace](images/stringreplace.png)
 
@@ -54,8 +54,9 @@ Simply displays a string output. Can be used to view the results/changes to the 
   
 ## Example Usage  
   
-![exampleusage](images/exampleusage.png)
-
+![exampleusage](images/examplestrip.png)  
+  
+![exampleusage](images/examplereplace.png)
 
 ## Installation
 1. Navigate to the `custom_nodes` directory in your ComfyUI installation path.
@@ -67,5 +68,5 @@ git clone https://github.com/bradsec/ComfyUI_StringEssentials.git
 4. Select node from the `Add Node` > `utils` menu.
 
 
-### [If you found these nodes useful please ⭐ Star the repo at github.com/bradsec/ComfyUI_StringEssentials.](https://github.com/bradsec/ComfyUI_StringEssentials "BRADSEC ComfyUI_StringEssentials")
+### [Found these nodes useful? ⭐ Star the repo github.com/bradsec/ComfyUI_StringEssentials.](https://github.com/bradsec/ComfyUI_StringEssentials "BRADSEC ComfyUI_StringEssentials")
 
