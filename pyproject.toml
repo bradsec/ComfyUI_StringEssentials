@@ -1,7 +1,7 @@
 [project]
 name = "comfyui_stringessentials"
 description = "Simple string manipulation nodes for ComfyUI (strip/remove text strings, search and replace text strings, preview modified string outputs). Useful for modifying text prompts or results from LLM outputs. Nodes will be located under standard Add Node > utils menu. Node names: String Textbox, String Strip, String Replace, and String Preview."
-version = "1.0.4"
+version = "1.0.5"
 license = {file = "LICENSE"}
 
 [project.urls]
