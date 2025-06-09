@@ -13,9 +13,9 @@ app.registerExtension({
 });
 
 app.registerExtension({
-    name: "string.replace",
+    name: "string.multireplace",
     async beforeRegisterNodeDef(nodeType) {
-        if (nodeType.comfyClass === "StringReplace") {
+        if (nodeType.comfyClass === "StringMultiReplace") {
             nodeType.prototype.onNodeCreated = function() {
                 this.addInput("input_string", "STRING");
             };

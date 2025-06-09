@@ -1,6 +1,6 @@
 import re
 
-class StringReplaceNode:
+class StringMultiReplaceNode:
     @classmethod
     def INPUT_TYPES(cls):
         return {
