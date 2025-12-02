@@ -14,7 +14,7 @@ class StringTextboxNode:
     RETURN_TYPES = ("STRING",)
     RETURN_NAMES = ("output_string",)
     FUNCTION = "pass_string"
-    CATEGORY = "utils"
+    CATEGORY = "utils/StringEssentials"
 
     def pass_string(self, input_string):
         return (input_string,)
