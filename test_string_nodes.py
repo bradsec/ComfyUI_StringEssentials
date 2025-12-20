@@ -344,5 +344,65 @@ goodbye"""
         self.assertEqual(result, "Hello world goodbye")
         self.assertFalse(was_appended)
 
+    def test_replace_with_space(self):
+        # Test Issue #8: Replace with space (trailing space should be preserved)
+        input_string = "hello_world_test"
+        replacement_pairs = "_:: "
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=False
+        )[0]
+        self.assertEqual(result, "hello world test")
+
+    def test_replace_with_leading_space(self):
+        # Test Issue #8: Replace with leading space
+        input_string = "value1,value2,value3"
+        replacement_pairs = ",::, "
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=False
+        )[0]
+        self.assertEqual(result, "value1, value2, value3")
+
+    def test_replace_with_whitespace_only(self):
+        # Test Issue #8: Replace with only whitespace
+        input_string = "word1___word2"
+        replacement_pairs = "___::   "
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=False
+        )[0]
+        self.assertEqual(result, "word1   word2")
+
+    def test_replace_with_tab(self):
+        # Test Issue #8: Replace with tab character
+        input_string = "column1|column2|column3"
+        replacement_pairs = "|::\t"
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=False
+        )[0]
+        self.assertEqual(result, "column1\tcolumn2\tcolumn3")
+
 if __name__ == '__main__':
     unittest.main()

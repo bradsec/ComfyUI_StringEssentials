@@ -35,13 +35,13 @@ class StringMultiReplaceNode:
         # Create a list of all replacements
         replacements = []
         for line in replacement_pairs.splitlines():
-            line = line.strip()
-            if not line or replacement_delimiter not in line:
+            # Don't strip the line yet to preserve trailing whitespace in replacements (Issue #8)
+            if not line or line.isspace() or replacement_delimiter not in line:
                 continue
 
             search_str, replace_str = line.split(replacement_delimiter, 1)
             search_str = search_str.strip()
-            replace_str = replace_str.strip()
+            # Don't strip replace_str to allow intentional spaces/whitespace (Issue #8)
 
             if not search_str:
                 continue
