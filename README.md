@@ -8,6 +8,7 @@ Simple string manipulation nodes for ComfyUI (strip/remove text strings, search 
 - String Strip
 - String Multi Replace
 - String Conditional Append
+- String Contains Any
 - String Preview
 
 ***Once added nodes can be found under the `Add Node` > `utils` > `StringEssentials` menu.***
@@ -15,6 +16,7 @@ Simple string manipulation nodes for ComfyUI (strip/remove text strings, search 
 ## Features
 - Remove or replace text, words, numbers in input strings
 - Conditionally append text only when not already present
+- Check if text contains any of multiple substrings (for conditional workflows)
 - Handle multi-word strings (partial sentences/phrases)
 - Case-sensitive/insensitive matching
 - Whole string matching option
@@ -67,6 +69,18 @@ Conditionally adds strings to the input text only if they're not already present
 ### Outputs
 - **`output_string`**: The resulting text (with or without appended strings)
 - **`was_appended`**: Boolean indicating whether any strings were added
+
+## String Contains Any
+Checks if the input string contains any of the specified substrings. Returns a boolean result and the first matched substring. Useful for conditional workflows, such as loading specific LoRAs based on prompt keywords (e.g., load anime LoRA if prompt contains "anime", "manga", or "cel-shaded").
+
+### Inputs
+- **`input_string`**: The string or text to search within (connection input)
+- **`substrings`**: List of substrings to search for (one per line)
+- **`match_case`**: Enable/disable case-sensitive search (default: disabled)
+
+### Outputs
+- **`contains_any`**: Boolean indicating whether any substring was found
+- **`matched_string`**: The first substring that was found (empty string if none matched)
 
 ## String Preview
 Simply displays a string output. Can be used to view the results/changes to the input_string by the `String Strip` or `String Replace`.  

@@ -2,12 +2,14 @@ import unittest
 from string_strip_node import StringStripNode
 from string_multi_replace_node import StringMultiReplaceNode
 from string_conditional_append_node import StringConditionalAppendNode
+from string_contains_any_node import StringContainsAnyNode
 
 class TestStringNodes(unittest.TestCase):
     def setUp(self):
         self.strip_node = StringStripNode()
         self.replace_node = StringMultiReplaceNode()
         self.append_node = StringConditionalAppendNode()
+        self.contains_any_node = StringContainsAnyNode()
 
     def test_strip_basic_functionality(self):
         input_string = "This is a test string with test word"
@@ -403,6 +405,112 @@ goodbye"""
             remove_extra_spaces=False
         )[0]
         self.assertEqual(result, "column1\tcolumn2\tcolumn3")
+
+    # Tests for StringContainsAnyNode (Issue #9)
+    def test_contains_any_found(self):
+        # Substring present, returns True
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful anime portrait",
+            substrings="anime",
+            match_case=False
+        )
+        self.assertTrue(result)
+        self.assertEqual(matched, "anime")
+
+    def test_contains_any_not_found(self):
+        # No match, returns False
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful landscape",
+            substrings="anime",
+            match_case=False
+        )
+        self.assertFalse(result)
+        self.assertEqual(matched, "")
+
+    def test_contains_any_multiple_first_match(self):
+        # Returns first matched substring
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful anime manga portrait",
+            substrings="""cel-shaded
+anime
+manga""",
+            match_case=False
+        )
+        self.assertTrue(result)
+        self.assertEqual(matched, "anime")
+
+    def test_contains_any_case_insensitive(self):
+        # Default case-insensitive behavior
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful ANIME portrait",
+            substrings="anime",
+            match_case=False
+        )
+        self.assertTrue(result)
+        self.assertEqual(matched, "anime")
+
+    def test_contains_any_case_sensitive(self):
+        # Case-sensitive matching
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful ANIME portrait",
+            substrings="anime",
+            match_case=True
+        )
+        self.assertFalse(result)
+        self.assertEqual(matched, "")
+
+    def test_contains_any_case_sensitive_found(self):
+        # Case-sensitive matching with exact case
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful ANIME portrait",
+            substrings="ANIME",
+            match_case=True
+        )
+        self.assertTrue(result)
+        self.assertEqual(matched, "ANIME")
+
+    def test_contains_any_empty_input(self):
+        # Empty input string
+        result, matched = self.contains_any_node.contains_any(
+            input_string="",
+            substrings="anime",
+            match_case=False
+        )
+        self.assertFalse(result)
+        self.assertEqual(matched, "")
+
+    def test_contains_any_empty_substrings(self):
+        # Empty substrings
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful anime portrait",
+            substrings="",
+            match_case=False
+        )
+        self.assertFalse(result)
+        self.assertEqual(matched, "")
+
+    def test_contains_any_whitespace_substrings(self):
+        # Substrings with only whitespace lines (should be ignored)
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful anime portrait",
+            substrings="""
+anime
+   """,
+            match_case=False
+        )
+        self.assertTrue(result)
+        self.assertEqual(matched, "anime")
+
+    def test_contains_any_partial_match(self):
+        # Partial substring match (anime matches animation)
+        result, matched = self.contains_any_node.contains_any(
+            input_string="A beautiful animation",
+            substrings="anim",
+            match_case=False
+        )
+        self.assertTrue(result)
+        self.assertEqual(matched, "anim")
+
 
 if __name__ == '__main__':
     unittest.main()
