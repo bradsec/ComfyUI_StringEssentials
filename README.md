@@ -73,6 +73,8 @@ Conditionally adds strings to the input text only if they're not already present
 ## String Contains Any
 Checks if the input string contains any of the specified substrings. Returns a boolean result and the first matched substring. Useful for conditional workflows, such as loading specific LoRAs based on prompt keywords (e.g., load anime LoRA if prompt contains "anime", "manga", or "cel-shaded").
 
+![stringcontainsany](images/stringcontainsany.png)
+
 ### Inputs
 - **`input_string`**: The string or text to search within (connection input)
 - **`substrings`**: List of substrings to search for (one per line)
@@ -81,6 +83,10 @@ Checks if the input string contains any of the specified substrings. Returns a b
 ### Outputs
 - **`contains_any`**: Boolean indicating whether any substring was found
 - **`matched_string`**: The first substring that was found (empty string if none matched)
+
+# Example Usage
+
+![exampleusage](images/examplecontainsany.png) 
 
 ## String Preview
 Simply displays a string output. Can be used to view the results/changes to the input_string by the `String Strip` or `String Replace`.  
