@@ -21,6 +21,8 @@ Simple string manipulation nodes for ComfyUI (strip/remove text strings, search 
 - Case-sensitive/insensitive matching
 - Whole string matching option
 - Preserve punctuation in prompts and special syntax (parentheses, colons, brackets)
+- Optional regex pattern matching in search/replace
+- Configurable replacement order (longest-first or input-order)
 
 ## String Textbox
 A simple multiline textbox for free form text.  
@@ -53,6 +55,8 @@ Replaces text strings with new strings (replace/swap words etc.). Each line shou
 - **`match_whole_string`**: Ensure only exact matches are replaced
 - **`preserve_punctuation`**: Keep punctuation marks adjacent to matched text (default: enabled)
 - **`remove_extra_spaces`**: Clean up extra spaces after replacement
+- **`sort_by_length`**: When enabled, longer search strings are replaced first to prevent substring clobbering. Disable to process pairs in input order, allowing intentional chaining (default: enabled)
+- **`use_regex`**: When enabled, search strings are treated as regex patterns instead of literal text (default: disabled)
 
 ## String Conditional Append
 Conditionally adds strings to the input text only if they're not already present. Useful for ensuring specific keywords or phrases exist in prompts without creating duplicates. Enter multiple strings (one per line) to check and append any that are missing.
