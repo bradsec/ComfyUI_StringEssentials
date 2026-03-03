@@ -17,7 +17,13 @@ class StringMultiReplaceNode:
                     "label_on": "enabled", "label_off": "disabled",
                     "tooltip": "When enabled, punctuation marks adjacent to matched text are preserved"}),
                 "remove_extra_spaces": ("BOOLEAN", {"default": True,
-                    "label_on": "enabled", "label_off": "disabled"})
+                    "label_on": "enabled", "label_off": "disabled"}),
+                "sort_by_length": ("BOOLEAN", {"default": True,
+                    "label_on": "enabled", "label_off": "disabled",
+                    "tooltip": "When enabled, longer search strings are replaced first to prevent substring clobbering. Disable for input-order replacement."}),
+                "use_regex": ("BOOLEAN", {"default": False,
+                    "label_on": "enabled", "label_off": "disabled",
+                    "tooltip": "When enabled, search strings are treated as regex patterns instead of literal text"})
             }
         }
 
@@ -31,7 +37,7 @@ class StringMultiReplaceNode:
         text = re.sub(r'\s{2,}', ' ', text)  # Normalize multiple spaces
         return text.strip()
 
-    def string_replace(self, input_string, replacement_pairs, replacement_delimiter, match_case, match_whole_string, preserve_punctuation, remove_extra_spaces):
+    def string_replace(self, input_string, replacement_pairs, replacement_delimiter, match_case, match_whole_string, preserve_punctuation, remove_extra_spaces, sort_by_length=True, use_regex=False):
         # Create a list of all replacements
         replacements = []
         for line in replacement_pairs.splitlines():
@@ -48,28 +54,30 @@ class StringMultiReplaceNode:
 
             replacements.append((len(search_str), search_str, replace_str))
 
-        # Sort by length in descending order
-        replacements.sort(reverse=True)
+        # Sort by length in descending order (longest first to prevent substring clobbering)
+        if sort_by_length:
+            replacements.sort(reverse=True)
 
         result = input_string
         flags = 0 if match_case else re.IGNORECASE
 
         # Perform replacements
         for _, search_str, replace_str in replacements:
+            escaped = search_str if use_regex else re.escape(search_str)
             if match_whole_string:
                 if preserve_punctuation:
                     # Match whole words but preserve adjacent punctuation
-                    pattern = r'\b' + re.escape(search_str) + r'\b'
+                    pattern = r'\b' + escaped + r'\b'
                 else:
                     # Original behavior: remove punctuation after match
-                    pattern = r'(?:\b|(?<=\s)|^)' + re.escape(search_str) + r'(?:[,;:.])?(?=\s|$)'
+                    pattern = r'(?:\b|(?<=\s)|^)' + escaped + r'(?:[,;:.])?(?=\s|$)'
             else:
                 if preserve_punctuation:
-                    # Simple literal replacement preserving punctuation
-                    pattern = re.escape(search_str)
+                    # Simple replacement preserving punctuation
+                    pattern = escaped
                 else:
                     # Original behavior: remove punctuation after match
-                    pattern = re.escape(search_str) + r'(?:[,;:.])?'
+                    pattern = escaped + r'(?:[,;:.])?'
 
             regex = re.compile(pattern, flags=flags)
             result = regex.sub(replace_str, result)

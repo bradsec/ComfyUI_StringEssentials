@@ -512,5 +512,147 @@ anime
         self.assertEqual(matched, "anim")
 
 
+    # Tests for sort_by_length parameter (Issue #11)
+    def test_replace_sort_by_length_default(self):
+        # Default behavior: longest match first prevents substring clobbering
+        input_string = "this is a test"
+        replacement_pairs = """is::WAS
+this::THAT"""
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=True,
+            preserve_punctuation=True,
+            remove_extra_spaces=True,
+            sort_by_length=True
+        )[0]
+        # "this" (4 chars) replaced before "is" (2 chars), so "this" is not mangled
+        self.assertEqual(result, "THAT WAS a test")
+
+    def test_replace_sort_by_length_disabled(self):
+        # Input-order replacement: pairs processed in the order given
+        input_string = "cat is here"
+        replacement_pairs = """cat::dog
+dog::fish"""
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=True,
+            preserve_punctuation=True,
+            remove_extra_spaces=True,
+            sort_by_length=False
+        )[0]
+        # "cat" -> "dog" first, then "dog" -> "fish" (chained replacement)
+        self.assertEqual(result, "fish is here")
+
+    def test_replace_sort_by_length_enabled_no_chaining(self):
+        # With sort enabled, equal-length pairs are sorted reverse-alphabetically,
+        # so "dog::fish" runs before "cat::dog". Since "dog" isn't in the original
+        # string, only "cat::dog" produces a match. No chaining occurs.
+        input_string = "cat is here"
+        replacement_pairs = """cat::dog
+dog::fish"""
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=True,
+            preserve_punctuation=True,
+            remove_extra_spaces=True,
+            sort_by_length=True
+        )[0]
+        self.assertEqual(result, "dog is here")
+
+    # Tests for use_regex parameter (Issue #11)
+    def test_replace_use_regex_basic(self):
+        # Regex pattern matching
+        input_string = "hello123world456"
+        replacement_pairs = r"\d+:: "
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=False,
+            use_regex=True
+        )[0]
+        self.assertEqual(result, "hello world ")
+
+    def test_replace_use_regex_disabled(self):
+        # Without regex, special chars are treated literally
+        input_string = r"hello\d+world"
+        replacement_pairs = r"\d+::REPLACED"
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=True,
+            use_regex=False
+        )[0]
+        self.assertEqual(result, "helloREPLACEDworld")
+
+    def test_replace_use_regex_with_groups(self):
+        # Regex with capture groups in replacement
+        input_string = "2024-01-15"
+        replacement_pairs = r"(\d{4})-(\d{2})-(\d{2})::\3/\2/\1"
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=True,
+            use_regex=True
+        )[0]
+        self.assertEqual(result, "15/01/2024")
+
+    def test_replace_use_regex_character_class(self):
+        # Regex with character class
+        input_string = "Hello, World! How are you?"
+        replacement_pairs = "[!?,]::;"
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=True,
+            use_regex=True
+        )[0]
+        self.assertEqual(result, "Hello; World; How are you;")
+
+    def test_replace_regex_with_input_order(self):
+        # Combine regex + input-order for chained regex replacements
+        input_string = "foo123bar456baz"
+        replacement_pairs = r"""\d+::_
+foo_bar::REPLACED"""
+        result = self.replace_node.string_replace(
+            input_string=input_string,
+            replacement_pairs=replacement_pairs,
+            replacement_delimiter="::",
+            match_case=False,
+            match_whole_string=False,
+            preserve_punctuation=True,
+            remove_extra_spaces=True,
+            sort_by_length=False,
+            use_regex=True
+        )[0]
+        # First: \d+ -> _ gives "foo_bar_baz"
+        # Then: foo_bar -> REPLACED gives "REPLACED_baz"
+        self.assertEqual(result, "REPLACED_baz")
+
+
 if __name__ == '__main__':
     unittest.main()
