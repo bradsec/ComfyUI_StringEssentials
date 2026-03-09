@@ -5,6 +5,10 @@ class StringMultiReplaceNode:
     def INPUT_TYPES(cls):
         return {
             "required": {
+                "input_string": ("STRING", {
+                    "forceInput": True,
+                    "tooltip": "The string to process"
+                }),
                 "replacement_pairs": ("STRING", {"multiline": True, "default": "", "placeholder": "Enter replacement pairs (one per line)",
                     "tooltip": "Enter replacement pairs (one per line). Format: 'search<delimiter>replace'. Default delimiter is ':' (colon)"}),
                 "replacement_delimiter": ("STRING", {"default": "::",

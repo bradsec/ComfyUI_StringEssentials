@@ -5,6 +5,10 @@ class StringStripNode:
     def INPUT_TYPES(cls):
         return {
             "required": {
+                "input_string": ("STRING", {
+                    "forceInput": True,
+                    "tooltip": "The string to process"
+                }),
                 "strings_to_remove": ("STRING", {"multiline": True, "default": "", "placeholder": "Enter strings to remove (one per line)",
                     "tooltip": "Enter strings to remove (one per line). Can include multiple words or strings on one line like: 'This image is'. This will only match this entire string."}),
                 "match_case": ("BOOLEAN", {"default": False,

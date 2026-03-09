@@ -5,6 +5,10 @@ class StringConditionalAppendNode:
     def INPUT_TYPES(cls):
         return {
             "required": {
+                "input_string": ("STRING", {
+                    "forceInput": True,
+                    "tooltip": "The string to process"
+                }),
                 "strings_to_check": ("STRING", {
                     "multiline": True,
                     "default": "",
