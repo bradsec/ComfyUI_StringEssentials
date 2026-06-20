@@ -12,14 +12,17 @@ class StringStripNode:
                 "strings_to_remove": ("STRING", {"multiline": True, "default": "", "placeholder": "Enter strings to remove (one per line)",
                     "tooltip": "Enter strings to remove (one per line). Can include multiple words or strings on one line like: 'This image is'. This will only match this entire string."}),
                 "match_case": ("BOOLEAN", {"default": False,
-                    "label_on": "enabled", "label_off": "disabled"}),
+                    "label_on": "enabled", "label_off": "disabled",
+                    "tooltip": "When enabled, matching is case-sensitive."}),
                 "match_whole_string": ("BOOLEAN", {"default": True,
-                    "label_on": "enabled", "label_off": "disabled"}),
+                    "label_on": "enabled", "label_off": "disabled",
+                    "tooltip": "When enabled, only whole-word matches are removed, not substrings inside other words."}),
                 "preserve_punctuation": ("BOOLEAN", {"default": True,
                     "label_on": "enabled", "label_off": "disabled",
                     "tooltip": "When enabled, punctuation marks adjacent to matched text are preserved"}),
                 "remove_extra_spaces": ("BOOLEAN", {"default": True,
-                    "label_on": "enabled", "label_off": "disabled"})
+                    "label_on": "enabled", "label_off": "disabled",
+                    "tooltip": "When enabled, collapses repeated spaces and trims the result after removal."})
             }
         }
 

@@ -14,14 +14,17 @@ class StringMultiReplaceNode:
                 "replacement_delimiter": ("STRING", {"default": "::",
                     "tooltip": "Character(s) that separate search and replace strings. Default is two '::' (colons)"}),
                 "match_case": ("BOOLEAN", {"default": False,
-                    "label_on": "enabled", "label_off": "disabled"}),
+                    "label_on": "enabled", "label_off": "disabled",
+                    "tooltip": "When enabled, matching is case-sensitive."}),
                 "match_whole_string": ("BOOLEAN", {"default": False,
-                    "label_on": "enabled", "label_off": "disabled"}),
+                    "label_on": "enabled", "label_off": "disabled",
+                    "tooltip": "When enabled, only whole-word matches are replaced, not substrings inside other words."}),
                 "preserve_punctuation": ("BOOLEAN", {"default": True,
                     "label_on": "enabled", "label_off": "disabled",
                     "tooltip": "When enabled, punctuation marks adjacent to matched text are preserved"}),
                 "remove_extra_spaces": ("BOOLEAN", {"default": True,
-                    "label_on": "enabled", "label_off": "disabled"}),
+                    "label_on": "enabled", "label_off": "disabled",
+                    "tooltip": "When enabled, collapses repeated spaces and trims the result after replacement."}),
                 "sort_by_length": ("BOOLEAN", {"default": True,
                     "label_on": "enabled", "label_off": "disabled",
                     "tooltip": "When enabled, longer search strings are replaced first to prevent substring clobbering. Disable for input-order replacement."}),
@@ -83,7 +86,15 @@ class StringMultiReplaceNode:
                     # Original behavior: remove punctuation after match
                     pattern = escaped + r'(?:[,;:.])?'
 
-            regex = re.compile(pattern, flags=flags)
+            try:
+                regex = re.compile(pattern, flags=flags)
+            except re.error as e:
+                # use_regex lets the user supply raw regex; surface the bad
+                # pattern and the reason instead of a bare traceback.
+                raise ValueError(
+                    f"StringMultiReplace: invalid regex for search '{search_str}': {e}. "
+                    f"Disable use_regex to treat search strings as literal text."
+                )
             result = regex.sub(replace_str, result)
 
         if remove_extra_spaces:
