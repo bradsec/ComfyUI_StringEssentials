@@ -104,6 +104,12 @@ Simply displays a string output. Can be used to view the results/changes to the 
 ![exampleusage](images/examplereplace.png)
 
 ## Installation
+
+### ComfyUI Manager (recommended)
+
+In ComfyUI, open **Manager > Custom Nodes Manager**, search for **ComfyUI_StringEssentials**, click **Install**, then restart ComfyUI.
+
+### Manual install
 1. Navigate to the `custom_nodes` directory in your ComfyUI installation path.
 2. Clone the repository:
 ```bash
