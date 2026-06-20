@@ -112,6 +112,8 @@ git clone https://github.com/bradsec/ComfyUI_StringEssentials.git
 3. Restart ComfyUI or refresh your nodes.
 4. Select nodes from the `Add Node` > `utils` > `StringEssentials` menu.
 
+---
 
-### [Found these nodes useful? ⭐ Star the repo github.com/bradsec/ComfyUI_StringEssentials.](https://github.com/bradsec/ComfyUI_StringEssentials "BRADSEC ComfyUI_StringEssentials")
+## Support
 
+If you find this useful, please consider [starring the repo](https://github.com/bradsec/ComfyUI_StringEssentials). Stars help other people discover these nodes.
